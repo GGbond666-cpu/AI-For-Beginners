@@ -47,10 +47,10 @@ class SimpleSentimentAnalyzer:
         Returns:
             List of cleaned words
         """
-        # Convert to lowercase
+        # Convert to lowercase转为小写
         text = text.lower()
         
-        # Remove punctuation and special characters
+        # Remove punctuation and special characters 用正则表达式将非字母非空格用空格替代
         text = re.sub(r'[^a-z\s]', '', text)
         
         # Split into words
@@ -72,7 +72,7 @@ class SimpleSentimentAnalyzer:
         print("🎓 Training sentiment analyzer...")
         
         # Count words in positive and negative texts
-        positive_words = Counter()
+        positive_words = Counter()#计数用的字典，统计元素出现次数
         negative_words = Counter()
         
         for text, sentiment in training_data:
@@ -87,12 +87,12 @@ class SimpleSentimentAnalyzer:
         # Score > 0 means more positive, < 0 means more negative
         all_words = set(positive_words.keys()) | set(negative_words.keys())
         
-        for word in all_words:
+        for word in all_words:#all_word是去重过的
             pos_count = positive_words[word]
             neg_count = negative_words[word]
-            
+            #每一个单词分别的出现次数
             # Calculate score: difference in appearances
-            # Add smoothing (+1) to avoid division by zero
+            # Add smoothing (+1) to avoid division by zero避免除以0
             total = pos_count + neg_count
             self.word_scores[word] = (pos_count - neg_count) / (total + 1)
         
@@ -158,7 +158,7 @@ def create_training_data():
     """
     return [
         # Positive reviews
-        ("This movie was absolutely amazing and wonderful! I loved every minute.", "positive"),
+        ("This movie was absolutely amazing and wonderful! I love every minute.", "positive"),
         ("Brilliant performance! The acting was superb and the story captivating.", "positive"),
         ("Fantastic film! Highly recommend to everyone. Best movie of the year!", "positive"),
         ("Loved it! Great storytelling and beautiful cinematography.", "positive"),
@@ -166,6 +166,7 @@ def create_training_data():
         ("Amazing! This film exceeded all my expectations. Truly remarkable.", "positive"),
         ("Wonderful experience! The plot was engaging and entertaining.", "positive"),
         ("Superb direction and acting! One of the best films I've seen.", "positive"),
+        ("I love the sun.","positive"),
         
         # Negative reviews
         ("Terrible movie. Waste of time and money. Very disappointed.", "negative"),
@@ -266,3 +267,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+#我理解了，就是先用一些话训练，我给出对于每一句话的情感判断，积极还是消极。
+#比如 "I love u”,然后训练阶段把这三个次都加入积极的字典,最后统计训练的所有句子中的每一个词(不重复)
+#比如I在positive字典中出现三次，negative字典一次那就计算它的分数为相减值除以总数+1(避免除以0，虽然感觉不会啊)
+#然后分析阶段就是统计这句话的句子总分，置信度就是总分绝对值除以word数量

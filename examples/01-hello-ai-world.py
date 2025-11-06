@@ -27,7 +27,7 @@ class SimpleAILearner:
         # The "weight" is what our AI learns
         # It starts with a random guess
         self.weight = random.uniform(0, 5)
-        self.learning_rate = 0.01  # How fast our AI learns
+        self.learning_rate = 0.001  # How fast our AI learns
         
     def predict(self, x):
         """
@@ -68,7 +68,7 @@ class SimpleAILearner:
                 self.weight += self.learning_rate * error * x
             
             # Print progress every 20 epochs
-            if (epoch + 1) % 20 == 0:
+            if (epoch + 1) % 10 == 0:
                 avg_error = total_error / len(training_data)
                 print(f"Epoch {epoch + 1}/{epochs} - Average error: {avg_error:.4f} - Weight: {self.weight:.2f}")
         
@@ -91,18 +91,18 @@ def main():
     # The pattern we want the AI to learn: y = 2 * x
     print("📊 Creating training data...")
     training_data = [
-        (1, 2),    # When x=1, y should be 2
-        (2, 4),    # When x=2, y should be 4
-        (3, 6),    # When x=3, y should be 6
-        (4, 8),    # When x=4, y should be 8
-        (5, 10),   # When x=5, y should be 10
+        (1, 1.5),    # When x=1, y should be 2
+        (2, 3),    # When x=2, y should be 4
+        (3, 4.5),    # When x=3, y should be 6
+        (4, 6),    # When x=4, y should be 8
+        (5, 7.5),   # When x=5, y should be 10
     ]
     print(f"Training examples: {training_data}")
     print()
     
     # Step 2: Create and train our AI
     ai = SimpleAILearner()
-    ai.train(training_data, epochs=100)
+    ai.train(training_data, epochs=50)
     print()
     
     # Step 3: Test our AI with new data
@@ -112,7 +112,7 @@ def main():
     
     for x in test_inputs:
         prediction = ai.predict(x)
-        actual = 2 * x  # The true answer
+        actual = 1.5 * x  # The true answer
         print(f"Input: {x:2d} | Prediction: {prediction:6.2f} | Actual: {actual:6.2f} | Difference: {abs(prediction - actual):.2f}")
     
     print("-" * 60)
