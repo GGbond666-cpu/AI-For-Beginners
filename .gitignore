@@ -130,6 +130,43 @@ ipch/
 *.vspx
 *.sap
 
+# =========================
+# 1. 屏蔽所有压缩包和媒体文件
+# =========================
+*.zip
+*.tar.gz
+*.rar
+*.mp4
+*.avi
+
+# =========================
+# 2. 屏蔽模型权重文件 (很大)
+# =========================
+*.pth
+*.pt
+*.h5
+*.onnx
+
+# =========================
+# 3. 屏蔽特定的数据集目录
+# =========================
+# 屏蔽所有叫 'data' 的文件夹，无论它在哪一层
+data/
+**/data/
+
+# 屏蔽你列表里出现的具体数据集文件夹
+FashionMNIST/
+MNIST/
+cifar-10-batches-py/
+PH2Dataset/
+petfaces/
+small_Annotations/
+small_JPEGImages/
+
+*.jpg
+*.png
+*.csv
+
 # Visual Studio Trace Files
 *.e2e
 
